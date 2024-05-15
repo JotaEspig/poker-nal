@@ -1,0 +1,21 @@
+# CMake folders
+CMakeFiles
+# CMake files
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+CMakeDoxyfile.in
+CMakeDoxygenDefaults.cmake
+
+# folder
+docs/
+lib/
+bin/
+obj/
+logs/
+.vscode/
+.clangd/
+.cache/
+
+# files
+compile_commands.json
