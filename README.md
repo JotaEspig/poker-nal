@@ -1,2 +1,2 @@
-# poker-analyser
-Analyses your hand in each stage of the game
+# poker-nal
+Play poker on your terminal

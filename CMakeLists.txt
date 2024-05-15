@@ -49,6 +49,7 @@ set(
     SOURCE_FILES
     ${SOURCE_DIR}/card.cpp
     ${SOURCE_DIR}/deck.cpp
+    ${SOURCE_DIR}/game.cpp
     ${SOURCE_DIR}/main.cpp
 )
 

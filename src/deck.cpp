@@ -1,5 +1,8 @@
+#include <algorithm>
 #include <cstddef>
+#include <ctime>
 #include <ostream>
+#include <random>
 
 #include "card.hpp"
 #include "deck.hpp"
@@ -8,6 +11,16 @@ namespace poker {
 
 Deck::Deck() {
     generate_deck();
+}
+
+void Deck::restart() {
+    generate_deck();
+}
+
+void Deck::shuffle() {
+    unsigned seed = std::time(NULL);
+    std::default_random_engine engine{seed};
+    std::shuffle(_cards.begin(), _cards.end(), engine);
 }
 
 std::array<Card, 52> Deck::cards() const {
@@ -33,6 +46,8 @@ void Deck::generate_deck() {
             };
         }
     }
+
+    shuffle();
 }
 
 } // namespace poker

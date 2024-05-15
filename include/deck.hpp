@@ -16,6 +16,7 @@ public:
     std::array<Card, 52> cards() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Deck &deck);
+
 private:
     std::array<Card, 52> _cards;
 
