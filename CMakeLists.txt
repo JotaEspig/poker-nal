@@ -7,7 +7,16 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
 
+option(USE_EMOJI "Use emoji when printing cards" ON)
+if (USE_EMOJI)
+    message("Using emojis")
+else()
+    message("Not using emojis")
+    add_definitions(-DNOEMOJI)
+endif()
+
 # CMake settings
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS}")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${FLAGS} -g3 -fsanitize=address,undefined")
@@ -38,6 +47,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(
     SOURCE_FILES
+    ${SOURCE_DIR}/card.cpp
+    ${SOURCE_DIR}/deck.cpp
     ${SOURCE_DIR}/main.cpp
 )
 
