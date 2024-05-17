@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.5...3.29.2)
-project(poker-analyser)
+project(poker-nal)
 
 # Debug mode
 set(FLAGS "-Wall -Wextra")
@@ -43,6 +43,7 @@ endif (DOXYGEN_FOUND)
 # =-=-=-=-=-=-= EXECUTABLE =-=-=-=-=-=-=
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
+# =-=-=-=-=-=-= SERVER =-=-=-=-=-=-=
 # Source files
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(
@@ -50,26 +51,27 @@ set(
     ${SOURCE_DIR}/card.cpp
     ${SOURCE_DIR}/deck.cpp
     ${SOURCE_DIR}/game.cpp
-    ${SOURCE_DIR}/main.cpp
+    ${SOURCE_DIR}/mainserver.cpp
+    ${SOURCE_DIR}/player.cpp
 )
 
 # Adding executables
-add_executable(poker-analyser ${SOURCE_FILES})
+add_executable(poker-nal-server ${SOURCE_FILES})
 
 # Libraries
 target_link_directories(
-    poker-analyser
+    poker-nal-server
     PRIVATE
 )
 target_link_libraries(
-    poker-analyser
+    poker-nal-server
     PRIVATE
     stdc++
 )
 
 # Header files
 target_include_directories(
-    poker-analyser
+    poker-nal-server
     PRIVATE
     ${CMAKE_SOURCE_DIR}/include
 )

@@ -1,8 +1,7 @@
 #include <algorithm>
-#include <cstddef>
-#include <ctime>
 #include <ostream>
 #include <random>
+#include <vector>
 
 #include "card.hpp"
 #include "deck.hpp"
@@ -14,23 +13,33 @@ Deck::Deck() {
 }
 
 void Deck::restart() {
+    _cards.clear();
     generate_deck();
 }
 
 void Deck::shuffle() {
-    unsigned seed = std::time(NULL);
-    std::default_random_engine engine{seed};
+    std::random_device rd;
+    std::default_random_engine engine{rd()};
     std::shuffle(_cards.begin(), _cards.end(), engine);
 }
 
-std::array<Card, 52> Deck::cards() const {
+Card Deck::pick_card() {
+    if (_cards.empty())
+        return Card{};
+
+    Card card = _cards.back();
+    _cards.pop_back();
+    return card;
+}
+
+const std::vector<Card> &Deck::cards() const {
     return _cards;
 }
 
 std::ostream &operator<<(std::ostream &os, const Deck &deck) {
     os << "[ ";
-    std::array<const Card, 52>::iterator it;
-    for (it = deck._cards.begin(); it != deck._cards.end() - 1; ++it) {
+    auto it = deck._cards.begin();
+    for (; it != deck._cards.end() - 1; ++it) {
         os << *it << ", ";
     }
     os << *it << " ]";
@@ -38,12 +47,11 @@ std::ostream &operator<<(std::ostream &os, const Deck &deck) {
 }
 
 void Deck::generate_deck() {
-    std::size_t index = 0;
     for (int num = 1; num <= 13; ++num) {
         for (int suit = 1; suit <= 4; ++suit) {
-            _cards[index++] = Card{
+            _cards.push_back(Card{
                 static_cast<Card::Number>(num), static_cast<Card::Suit>(suit)
-            };
+            });
         }
     }
 

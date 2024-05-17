@@ -1,3 +1,9 @@
-#include  "game.hpp"
+#include "game.hpp"
 
-namespace poker {} // namespace poker
+namespace poker {
+
+Game::Game() {
+
+}
+
+} // namespace poker
