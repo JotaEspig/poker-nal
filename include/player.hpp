@@ -8,6 +8,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <utility>
 
 #include "card.hpp"
@@ -30,13 +31,21 @@ public:
      **/
     Player();
     /**
-     * \brief Constructor that initializes player's hand
+     * \brief Constructor that initializes player's cash
      * \author João Vitor Espig (JotaEspig)
      * \date May 17, 2024
      * \version May 17, 2024
-     * param cards - pair of cards
+     * param cash - cash to be designated to player
      **/
-    Player(const std::pair<Card, Card> &cards);
+    Player(uint64_t cash);
+    /**
+     * \brief Creates shared pointer of player
+     * \author João Vitor Espig (JotaEspig)
+     * \date May 17, 2024
+     * \version May 17, 2024
+     * param cash - cash to be designated to player
+     **/
+    static std::shared_ptr<Player> make_shared(uint64_t cash = 0);
 
     /**
      * \brief Checks if player can bet that value
@@ -56,6 +65,14 @@ public:
      * \return updated player's cash
      **/
     uint64_t bet(uint64_t value);
+    /**
+     * \brief bets all-in
+     * \author João Vitor Espig (JotaEspig)
+     * \date May 17, 2024
+     * \version May 17, 2024
+     * \return betted value (player's cash before all-in)
+     **/
+    uint64_t allin();
     /**
      * \brief receives the value
      * \author João Vitor Espig (JotaEspig)

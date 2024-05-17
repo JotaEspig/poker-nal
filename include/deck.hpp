@@ -36,7 +36,7 @@ public:
      * \date May 17, 2024
      * \version May 17, 2024
      **/
-    void restart();
+    void reset();
     /**
      * \brief shuffle cards
      * \author João Vitor Espig (JotaEspig)

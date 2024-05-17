@@ -1,23 +1,17 @@
 #include <iostream>
 
-#include "card.hpp"
-#include "deck.hpp"
+#include "game.hpp"
 #include "player.hpp"
 
 int main() {
     using namespace poker;
 
-    Card c;
-    std::cout << c << std::endl;
-    c.suit = Card::Suit::Hearts;
-    c.number = Card::Number::Ace;
-    std::cout << c << std::endl;
+    Game g;
+    for (int i = 0; i < 6; ++i)
+        g.add_player(Player::make_shared());
+    g.init();
 
-    Deck d;
-    std::cout << d << std::endl;
-    Player p;
-    p.set_hand({d.pick_card(), d.pick_card()});
-    std::cout << p << std::endl;
+    g.DEBUG(std::cout);
 
     return 0;
 }

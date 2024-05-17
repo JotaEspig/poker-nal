@@ -12,7 +12,7 @@ Deck::Deck() {
     generate_deck();
 }
 
-void Deck::restart() {
+void Deck::reset() {
     _cards.clear();
     generate_deck();
 }
