@@ -39,11 +39,6 @@ else (DOXYGEN_FOUND)
     message("Doxygen not found. You won't be able to use `make docs`")
 endif (DOXYGEN_FOUND)
 
-
-# =-=-=-=-=-=-= EXECUTABLE =-=-=-=-=-=-=
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-# =-=-=-=-=-=-= TESTS =-=-=-=-=-=-=
 # Source files
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(
@@ -51,12 +46,23 @@ set(
     ${SOURCE_DIR}/card.cpp
     ${SOURCE_DIR}/deck.cpp
     ${SOURCE_DIR}/game.cpp
-    ${SOURCE_DIR}/main.cpp
     ${SOURCE_DIR}/player.cpp
+    )
+
+
+# =-=-=-=-=-=-= EXECUTABLE =-=-=-=-=-=-=
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+# =-=-=-=-=-=-= TESTS =-=-=-=-=-=-=
+
+set(
+    SOURCE_FILES_TEST
+    ${SOURCE_FILES}
+    ${SOURCE_DIR}/main.cpp
 )
 
 # Adding executables
-add_executable(poker-nal-tests ${SOURCE_FILES})
+add_executable(poker-nal-tests ${SOURCE_FILES_TEST})
 
 # Libraries
 target_link_directories(
