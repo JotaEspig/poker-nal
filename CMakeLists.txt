@@ -51,27 +51,27 @@ set(
     ${SOURCE_DIR}/card.cpp
     ${SOURCE_DIR}/deck.cpp
     ${SOURCE_DIR}/game.cpp
-    ${SOURCE_DIR}/mainserver.cpp
+    ${SOURCE_DIR}/main.cpp
     ${SOURCE_DIR}/player.cpp
 )
 
 # Adding executables
-add_executable(poker-nal-server ${SOURCE_FILES})
+add_executable(poker-nal-tests ${SOURCE_FILES})
 
 # Libraries
 target_link_directories(
-    poker-nal-server
+    poker-nal-tests
     PRIVATE
 )
 target_link_libraries(
-    poker-nal-server
+    poker-nal-tests
     PRIVATE
     stdc++
 )
 
 # Header files
 target_include_directories(
-    poker-nal-server
+    poker-nal-tests
     PRIVATE
     ${CMAKE_SOURCE_DIR}/include
 )
