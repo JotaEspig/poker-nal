@@ -35,11 +35,18 @@ public:
      * \version May 17, 2024
      **/
     struct PlayerOnGame {
-        /** Player obj **/
+        /** player object **/
         std::shared_ptr<Player> player;
         /** is playing in the current round **/
-        bool is_on_game_round;
+        bool is_on_game_round = false;
 
+        /**
+         * \brief Default constructor
+         * \author João Vitor Espig (JotaEspig)
+         * \date May 17, 2024
+         * \version May 17, 2024
+         **/
+        PlayerOnGame(std::shared_ptr<Player> p);
         /**
          * \brief Fold
          * \author João Vitor Espig (JotaEspig)
@@ -70,7 +77,7 @@ public:
      *
      * Initialize players hands
      **/
-    void init();
+    void init_new_round();
     /**
      * \brief Resets the game
      * \author João Vitor Espig (JotaEspig)
@@ -99,8 +106,17 @@ public:
      * \author João Vitor Espig (JotaEspig)
      * \date May 17, 2024
      * \version May 17, 2024
+     * \param player - Player shared ptr
      **/
     void add_player(std::shared_ptr<Player> player);
+    /**
+     * \brief Gets a player at index
+     * \author João Vitor Espig (JotaEspig)
+     * \date May 17, 2024
+     * \version May 17, 2024
+     * \return PlayerOnGame shared pointer object
+     **/
+    std::shared_ptr<PlayerOnGame> get_player(size_t index);
     /**
      * \brief Count players with is_on_game_round = true
      * \author João Vitor Espig (JotaEspig)
@@ -109,6 +125,15 @@ public:
      * \return Amount of players playing in round
      **/
     std::size_t players_playing_count() const;
+    /**
+     * \brief Gets the who plays first, second, etc...
+     * \author João Vitor Espig (JotaEspig)
+     * \date May 17, 2024
+     * \version May 17, 2024
+     * \return players indeces in order to play (Who has Dealer button is the
+     *last to play
+     **/
+    std::vector<int> players_play_order() const;
     /**
      * \brief Gets table size
      * \author João Vitor Espig (JotaEspig)
@@ -149,7 +174,7 @@ public:
      * \version May 17, 2024
      * \return players
      **/
-    std::vector<PlayerOnGame> players() const;
+    std::vector<std::shared_ptr<PlayerOnGame>> players() const;
 
     void DEBUG(std::ostream &os) const;
 
@@ -163,7 +188,7 @@ private:
     /** table cards **/
     std::array<Card, 5> _table_cards;
     /** Player on the table **/
-    std::vector<PlayerOnGame> _players;
+    std::vector<std::shared_ptr<PlayerOnGame>> _players;
 };
 
 } // namespace poker
