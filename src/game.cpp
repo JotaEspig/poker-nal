@@ -90,6 +90,10 @@ size_t Game::dealer_player_index() const {
     return _dealer_player_index;
 }
 
+Game::Stage Game::current_stage() const {
+    return _current_stage;
+}
+
 std::array<Card, 5> Game::table_cards() const {
     return _table_cards;
 }
@@ -99,7 +103,8 @@ std::vector<std::shared_ptr<Game::PlayerOnGame>> Game::players() const {
 }
 
 void Game::DEBUG(std::ostream &os) const {
-    os << "=== GAME ===\n" << std::endl;
+    os << "=== GAME ===" << std::endl;
+    os << current_stage() << std::endl;
     for (auto c : table_cards()) {
         os << c << " , ";
     }
@@ -113,6 +118,27 @@ void Game::DEBUG(std::ostream &os) const {
         os << i << ", ";
     }
     os << std::endl;
+}
+
+std::ostream &operator<<(std::ostream &os, const Game::Stage &stage) {
+    switch (stage) {
+    case Game::Stage::PREFLOP:
+        os << "PREFLOP";
+        break;
+    case Game::Stage::FLOP:
+        os << "FLOP";
+        break;
+    case Game::Stage::TURN:
+        os << "TURN";
+        break;
+    case Game::Stage::RIVER:
+        os << "RIVER";
+        break;
+    case Game::Stage::SHOWDOWN:
+        os << "SHOWDOWN";
+        break;
+    }
+    return os;
 }
 
 } // namespace poker

@@ -191,4 +191,6 @@ private:
     std::vector<std::shared_ptr<PlayerOnGame>> _players;
 };
 
+std::ostream &operator<<(std::ostream &os, const Game::Stage &stage);
+
 } // namespace poker

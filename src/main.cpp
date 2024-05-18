@@ -13,17 +13,21 @@ int main() {
     g.init_new_round();
 
     g.DEBUG(std::cout);
+    std::cout << std::endl;
 
     g.finish_round();
     g.init_new_round();
-    std::shared_ptr<Game::PlayerOnGame> p = g.get_player(0);
-    std::cout << p << std::endl;
+    auto p = g.get_player(0);
     p->fold();
     g.DEBUG(std::cout);
+    g.next_stage();
+    g.DEBUG(std::cout);
+    std::cout << std::endl;
 
     g.finish_round();
     g.init_new_round();
     g.DEBUG(std::cout);
+    std::cout << std::endl;
 
     return 0;
 }
