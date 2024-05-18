@@ -82,7 +82,7 @@ private:
      * \date May 17, 2024
      * \version May 17, 2024
      **/
-    void generate_deck();
+    void _generate_deck();
 };
 
 } // namespace poker

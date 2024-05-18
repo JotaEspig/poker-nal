@@ -9,12 +9,12 @@
 namespace poker {
 
 Deck::Deck() {
-    generate_deck();
+    _generate_deck();
 }
 
 void Deck::reset() {
     _cards.clear();
-    generate_deck();
+    _generate_deck();
 }
 
 void Deck::shuffle() {
@@ -46,7 +46,7 @@ std::ostream &operator<<(std::ostream &os, const Deck &deck) {
     return os;
 }
 
-void Deck::generate_deck() {
+void Deck::_generate_deck() {
     for (int num = 1; num <= 13; ++num) {
         for (int suit = 1; suit <= 4; ++suit) {
             _cards.push_back(Card{
