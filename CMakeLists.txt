@@ -43,7 +43,7 @@ endif (DOXYGEN_FOUND)
 # =-=-=-=-=-=-= EXECUTABLE =-=-=-=-=-=-=
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-# =-=-=-=-=-=-= SERVER =-=-=-=-=-=-=
+# =-=-=-=-=-=-= TESTS =-=-=-=-=-=-=
 # Source files
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(
@@ -72,6 +72,62 @@ target_link_libraries(
 # Header files
 target_include_directories(
     poker-nal-tests
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+# =-=-=-=-=-=-= SERVER TEST =-=-=-=-=-=-=
+# Source files
+set (
+    SOURCE_SERV_FILES
+    ${SOURCE_DIR}/server-test.cpp
+)
+
+# Adding executable
+add_executable(poker-nal-server ${SOURCE_SERV_FILES})
+
+# Libraries
+target_link_directories(
+    poker-nal-server
+    PRIVATE
+)
+target_link_libraries(
+    poker-nal-server
+    PRIVATE
+    stdc++
+)
+
+# Header files
+target_include_directories(
+    poker-nal-server
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+# =-=-=-=-=-=-= CLIENT TEST =-=-=-=-=-=-=
+# Source files
+set (
+    SOURCE_CLIENT_FILES
+    ${SOURCE_DIR}/client-test.cpp
+)
+
+# Adding executable
+add_executable(poker-nal-client ${SOURCE_CLIENT_FILES})
+
+# Libraries
+target_link_directories(
+    poker-nal-client
+    PRIVATE
+)
+target_link_libraries(
+    poker-nal-client
+    PRIVATE
+    stdc++
+)
+
+# Header files
+target_include_directories(
+    poker-nal-client
     PRIVATE
     ${CMAKE_SOURCE_DIR}/include
 )
