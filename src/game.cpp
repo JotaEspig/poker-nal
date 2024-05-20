@@ -211,8 +211,8 @@ std::size_t Game::players_playing_count() const {
     return amount;
 }
 
-std::vector<int> Game::players_play_order() const {
-    std::vector<int> v;
+std::vector<std::size_t> Game::players_play_order() const {
+    std::vector<std::size_t> v;
     for (std::size_t i = 1; i <= table_size(); ++i) {
         int index = (_dealer_player_index + i) % table_size();
         v.push_back(index);

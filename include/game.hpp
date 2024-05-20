@@ -168,13 +168,13 @@ public:
      * \return players indeces in order to play (Who has Dealer button is the
      *last to play
      **/
-    std::vector<int> players_play_order() const;
+    std::vector<std::size_t> players_play_order() const;
     /**
      * \brief Gets table size
      * \author João Vitor Espig (JotaEspig)
      * \date May 17, 2024
      * \version May 17, 2024
-     * \returns amount of player on table
+     * \returns amount of player on table, player at idx 0 is small blind and player at idx 1 is big blind
      **/
     std::size_t table_size() const;
 
