@@ -28,6 +28,23 @@ namespace poker {
  **/
 class Game {
 public:
+    /** Defines the stages of a game round **/
+    enum class Stage { PREFLOP = 0, FLOP, TURN, RIVER, SHOWDOWN };
+    /** Defines the all possible combinations of a hand **/
+    enum class Combination {
+        NOT_COMPUTED_YET = 0,
+        HIGH,
+        PAIR,
+        TWO_PAIR,
+        THREE_OF_A_KIND,
+        STRAIGHT,
+        FLUSH,
+        FULLHOUSE,
+        FOUR_OF_A_KIND,
+        STRAIGHT_FLUSH,
+        ROYAL_FLUSH
+    };
+
     /**
      * \brief Player on the game
      * \author João Vitor Espig (JotaEspig)
@@ -39,6 +56,8 @@ public:
         std::shared_ptr<Player> player;
         /** is playing in the current round **/
         bool is_on_game_round = false;
+        /** player hand combination **/
+        Combination combination = Combination::NOT_COMPUTED_YET;
 
         /**
          * \brief Default constructor
@@ -56,10 +75,9 @@ public:
          * is_on_game_round is set to false
          **/
         void fold();
-    };
 
-    /** Defines the stages of a game round **/
-    enum class Stage { PREFLOP = 0, FLOP, TURN, RIVER, SHOWDOWN };
+        bool operator<(const PlayerOnGame &other) const;
+    };
 
     /**
      * \brief Default constructor
@@ -101,6 +119,14 @@ public:
      * \version May 17, 2024
      **/
     void next_stage();
+    /**
+     * \brief Check who wins in the round
+     * \author João Vitor Espig (JotaEspig)
+     * \date May 17, 2024
+     * \version May 17, 2024
+     * \return pointer to player who wins
+     **/
+    std::shared_ptr<PlayerOnGame> who_wins() const;
     /**
      * \brief Add player to the game table (plays just on next round)
      * \author João Vitor Espig (JotaEspig)

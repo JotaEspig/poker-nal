@@ -29,5 +29,7 @@ int main() {
     g.DEBUG(std::cout);
     std::cout << std::endl;
 
+    std::cout << *(g.who_wins()->player) << std::endl;
+
     return 0;
 }

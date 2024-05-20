@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <memory>
@@ -7,6 +8,7 @@
 #include <vector>
 
 #include "game.hpp"
+#include "utils.hpp"
 
 namespace poker {
 
@@ -16,6 +18,10 @@ Game::PlayerOnGame::PlayerOnGame(std::shared_ptr<Player> p) :
 
 void Game::PlayerOnGame::fold() {
     is_on_game_round = false;
+}
+
+bool Game::PlayerOnGame::operator<(const PlayerOnGame &other) const {
+    return static_cast<int>(combination) < static_cast<int>(other.combination);
 }
 
 Game::Game() {
@@ -48,6 +54,44 @@ void Game::next_stage() {
         return finish_round();
     }
     _current_stage = static_cast<Stage>(static_cast<int>(_current_stage) + 1);
+}
+
+std::shared_ptr<Game::PlayerOnGame> Game::who_wins() const {
+    std::vector<std::shared_ptr<PlayerOnGame>> aux;
+    for (auto p : _players) {
+        if (!p->is_on_game_round)
+            continue;
+
+        std::array<Card, 7> all_cards;
+        for (int i = 0; i < 5; ++i)
+            all_cards[i] = _table_cards[i];
+        all_cards[5] = p->player->hand().first;
+        all_cards[6] = p->player->hand().second;
+        /*
+        if (is_royal_flush(all_cards))
+            p->combination = Combination::ROYAL_FLUSH;
+        else if (is_straight_flush(all_cards))
+            p->combination = Combination::STRAIGHT_FLUSH;
+        else if (is_four_of_a_kind(all_cards))
+            p->combination = Combination::FOUR_OF_A_KIND;
+        else if (is_fullhouse(all_cards))
+            p->combination = Combination::FULLHOUSE;
+        else if (is_flush(all_cards))
+            p->combination = Combination::FLUSH;
+        else if (is_straight(all_cards))
+            p->combination = Combination::STRAIGHT;
+        else if (is_three_of_a_kind(all_cards))
+            p->combination = Combination::THREE_OF_A_KIND;
+        else if (is_two_pair(all_cards))
+            p->combination = Combination::TWO_PAIR;
+            */
+        if (is_pair(all_cards)) p->combination = Combination::PAIR;
+        else p->combination = Combination::HIGH;
+
+        aux.push_back(p);
+    }
+    std::sort(aux.begin(), aux.end());
+    return aux.front();
 }
 
 void Game::add_player(std::shared_ptr<Player> player) {
