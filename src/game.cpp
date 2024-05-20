@@ -128,7 +128,6 @@ std::int64_t Game::next_player_idx(std::size_t idx) const {
         return -1;
 
     std::int64_t next = -1;
-    std::int64_t first = -1;
     bool aux = false;
     for (auto i : players_play_order()) {
         if (i == idx) {
@@ -142,11 +141,9 @@ std::int64_t Game::next_player_idx(std::size_t idx) const {
             next = i;
             break;
         }
-        else if (first == -1)
-            first = i;
+        else if (next == -1)
+            next = i;
     }
-    if (next == -1)
-        next = first;
     return next;
 }
 
