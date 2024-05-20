@@ -8,6 +8,72 @@
 
 #include "game.hpp"
 
+/**
+ * \brief Prints a single card
+ */
+void print_card(std::ostream &os, const poker::Card &card) {
+    os << "+-----+" << "\n"
+       << "| " << card.number;
+
+    // Edge case if number is 10, which occupies two spaces
+    if (card.number == poker::Card::Number::Ten) {
+        os << "  |\n";
+    }
+    else {
+        os << "   |\n";
+    }
+
+    os << "|     |" << "\n"
+       << "|   " << card.suit << " |" << "\n"
+       << "+-----+";
+}
+
+/**
+ * \brief Prints an array of cards in the same line
+ */
+template <size_t N>
+void print_cards(std::ostream &os, const std::array<poker::Card, N> &cards) {
+    size_t i;
+    // Start line
+    for (i = 0; i < N; ++i) {
+        os << "+-----+ ";
+    }
+    os << "\n";
+
+    // Number line
+    for (i = 0; i < N; ++i) {
+        os << "| ";
+        os << cards[i].number;
+
+        // Edge case if number is 10, which occupies two spaces
+        if (cards[i].number == poker::Card::Number::Ten) {
+            os << "  | ";
+        }
+        else {
+            os << "   | ";
+        }
+    }
+    os << "\n";
+
+    // White line
+    for (i = 0; i < N; ++i) {
+        os << "|     | ";
+    }
+    os << "\n";
+
+    // Suit line
+    for (i = 0; i < N; ++i) {
+        os << "|   " << cards[i].suit << " | ";
+    }
+    os << "\n";
+
+    // End line
+    for (i = 0; i < N; ++i) {
+        os << "+-----+ ";
+    }
+    os << "\n";
+}
+
 namespace poker {
 
 Game::PlayerOnGame::PlayerOnGame(std::shared_ptr<Player> p) :
@@ -105,12 +171,28 @@ std::vector<std::shared_ptr<Game::PlayerOnGame>> Game::players() const {
 void Game::DEBUG(std::ostream &os) const {
     os << "=== GAME ===" << std::endl;
     os << current_stage() << std::endl;
-    for (auto c : table_cards()) {
-        os << c << " , ";
-    }
-    os << std::endl;
+    os << "\nTable:\n";
+    print_cards(os, table_cards());
+
+    // Unrevealed card
+    //
+    // os << "\n"
+    //    << "+-----+" << "\n"
+    //    << "| ♦ ♦ |" << "\n"
+    //    << "| ♦ ♦ |" << "\n"
+    //    << "| ♦ ♦ |" << "\n"
+    //    << "+-----+" << "\n";
+
+    os << "\nPlayers:";
     for (auto p : players()) {
-        os << *(p->player) << "-" << p->is_on_game_round << " , ";
+        // Print player info
+        os << "\nP[ Cash: " << p->player->cash()
+           << " | Is on round: " << p->is_on_game_round << " ]\n";
+
+        // Print hand
+        auto hand = p->player->hand();
+        std::array<Card, 2> hand_arr = {hand.first, hand.second};
+        print_cards(os, hand_arr);
     }
     os << std::endl;
     os << "Dealer Index: " << dealer_player_index() << std::endl;

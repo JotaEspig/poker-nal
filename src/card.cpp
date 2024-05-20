@@ -24,36 +24,36 @@ std::ostream &operator<<(std::ostream &os, const Card::Suit &suit) {
 #ifdef NOEMOJI
     switch (suit) {
     case Suit::Diamonds:
-        os << "Diamonds";
+        os << "D";
         break;
     case Suit::Spades:
-        os << "Spades";
+        os << "S";
         break;
     case Suit::Hearts:
-        os << "Hearts";
+        os << "H";
         break;
     case Suit::Clubs:
-        os << "Clubs";
+        os << "C";
         break;
     case Suit::Invalid:
-        os << "Invalid";
+        os << "?";
     }
 #else
     switch (suit) {
-        case Suit::Diamonds:
-            os << "♦️";
-            break;
+    case Suit::Diamonds:
+        os << "♦";
+        break;
     case Suit::Spades:
-        os << "♠️";
+        os << "♠";
         break;
     case Suit::Hearts:
-        os << "♥️";
+        os << "♥";
         break;
     case Suit::Clubs:
-        os << "♣️";
+        os << "♣";
         break;
     case Suit::Invalid:
-        os << "Invalid";
+        os << "?";
     }
 #endif
     return os;
@@ -101,7 +101,7 @@ std::ostream &operator<<(std::ostream &os, const Card::Number &number) {
         os << "A";
         break;
     case Number::Invalid:
-        os << "Invalid";
+        os << "?";
     }
     return os;
 }
