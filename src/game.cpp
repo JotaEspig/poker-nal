@@ -52,6 +52,31 @@ void Game::next_stage() {
     _current_stage = static_cast<Stage>(static_cast<int>(_current_stage) + 1);
 }
 
+std::int64_t Game::next_player_idx(std::size_t idx) const {
+    std::size_t active_players = players_playing_count();
+    if (active_players <= 1)
+        return -1;
+
+    std::int64_t next = -1;
+    bool aux = false;
+    for (auto i : players_play_order()) {
+        if (i == idx) {
+            aux = true;
+            continue;
+        }
+
+        if (!_players[i]->is_on_game_round) {
+        }
+        else if (aux) {
+            next = i;
+            break;
+        }
+        else if (next == -1)
+            next = i;
+    }
+    return next;
+}
+
 std::shared_ptr<Game::PlayerOnGame> Game::who_wins() const {
     std::vector<std::shared_ptr<PlayerOnGame>> aux;
     for (auto p : _players) {
@@ -115,8 +140,8 @@ std::size_t Game::players_playing_count() const {
     return amount;
 }
 
-std::vector<int> Game::players_play_order() const {
-    std::vector<int> v;
+std::vector<std::size_t> Game::players_play_order() const {
+    std::vector<std::size_t> v;
     for (std::size_t i = 1; i <= table_size(); ++i) {
         int index = (_dealer_player_index + i) % table_size();
         v.push_back(index);

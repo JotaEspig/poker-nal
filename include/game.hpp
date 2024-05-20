@@ -9,6 +9,7 @@
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
 #include <memory>
 #include <ostream>
 #include <vector>
@@ -120,6 +121,14 @@ public:
      **/
     void next_stage();
     /**
+     * \brief get the next player who must play
+     * \author João Vitor Espig (JotaEspig)
+     * \date May 20, 2024
+     * \version May 20, 2024
+     * \return a number > 0 if a player has to play yet, -1 if the stage is over
+     **/
+    std::int64_t next_player_idx(std::size_t idx) const;
+    /**
      * \brief Check who wins in the round
      * \author João Vitor Espig (JotaEspig)
      * \date May 17, 2024
@@ -159,13 +168,13 @@ public:
      * \return players indeces in order to play (Who has Dealer button is the
      *last to play
      **/
-    std::vector<int> players_play_order() const;
+    std::vector<std::size_t> players_play_order() const;
     /**
      * \brief Gets table size
      * \author João Vitor Espig (JotaEspig)
      * \date May 17, 2024
      * \version May 17, 2024
-     * \returns amount of player on table
+     * \returns amount of player on table, player at idx 0 is small blind and player at idx 1 is big blind
      **/
     std::size_t table_size() const;
 
