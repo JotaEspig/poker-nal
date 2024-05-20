@@ -47,7 +47,8 @@ set(
     ${SOURCE_DIR}/deck.cpp
     ${SOURCE_DIR}/game.cpp
     ${SOURCE_DIR}/player.cpp
-    )
+    ${SOURCE_DIR}/server.cpp
+)
 
 
 # =-=-=-=-=-=-= EXECUTABLE =-=-=-=-=-=-=
