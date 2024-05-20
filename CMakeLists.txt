@@ -48,7 +48,7 @@ set(
     ${SOURCE_DIR}/game.cpp
     ${SOURCE_DIR}/player.cpp
     ${SOURCE_DIR}/utils.cpp
-    )
+)
 
 
 # =-=-=-=-=-=-= EXECUTABLE =-=-=-=-=-=-=
@@ -88,6 +88,7 @@ target_include_directories(
 set (
     SOURCE_SERV_FILES
     ${SOURCE_DIR}/server-test.cpp
+    ${SOURCE_DIR}/server.cpp
 )
 
 # Adding executable

@@ -1,15 +1,18 @@
-#include <cerrno>
+#include <arpa/inet.h>
 #include <cstring>
 #include <iostream>
-#include <vector>
-
-#include <arpa/inet.h>
-#include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
 #include <random>
-#include <sstream>
+
+#include "server.hpp"
+
+#define DEFAULT_PORT 8080
+
+namespace poker {
+/** For socket SO_REUSEADDR option */
+static const int reuse_addr = 1;
 
 // TODO: If this is going to be used, move it to a separate file
 std::string generate_uuid() {
@@ -31,21 +34,22 @@ std::string generate_uuid() {
     return res;
 }
 
-int main() {
-    // Socket operations return values
-    int result;
+Server::Server() {
+}
 
+Server::Server(int port) :
+  port{port} {
     // Create server socket
-    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket == -1) {
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd == -1) {
         std::cout << "Error on socket(): " << std::strerror(errno) << "\n";
         exit(-1);
     }
 
     // Set sock options
-    const int reuse_addr = 1;
+    int result;
     result = setsockopt(
-        server_socket, SOL_SOCKET, SO_REUSEADDR, &reuse_addr, sizeof(int)
+        server_fd, SOL_SOCKET, SO_REUSEADDR, &reuse_addr, sizeof(int)
     );
     if (result != 0) {
         std::cout << "Error on setsockopt(): " << std::strerror(errno) << "\n";
@@ -53,15 +57,13 @@ int main() {
     }
 
     // Define server address
-    sockaddr_in server_address;
     server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(8080);
+    server_address.sin_port = htons(port);
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     // Bind server socket
     result = bind(
-        server_socket, (struct sockaddr *)&server_address,
-        sizeof(server_address)
+        server_fd, (struct sockaddr *)&server_address, sizeof(server_address)
     );
     if (result != 0) {
         std::cout << "Error on bind(): " << std::strerror(errno) << "\n";
@@ -69,31 +71,28 @@ int main() {
     }
 
     // Listen to requests
-    result = listen(server_socket, 5);
+    result = listen(server_fd, 5);
     if (result != 0) {
         std::cout << "Error on listen(): " << std::strerror(errno) << "\n";
         exit(result);
     }
     std::cout << "Server running\n";
+}
 
-    // List of clients
-    std::vector<std::string> clients;
-
-    // Handle incoming client requests
-    // TODO: This needs to be changed as the server could receive more than 100
-    // messages
-    for (int i = 0; i < 100; ++i) {
+void Server::start() {
+    while (true) {
         // Accept client connection
         struct sockaddr addr;
         socklen_t len;
-        int client_socket = accept(server_socket, &addr, &len);
-        std::cout << "Accepted from socket " << client_socket << "\n";
+        int client_socket = accept(server_fd, &addr, &len);
 
+        // Get client IP address
         struct sockaddr_in *addr_in = (struct sockaddr_in *)&addr;
         char *client_ip = inet_ntoa(addr_in->sin_addr);
-        printf("IP address: %s\n", client_ip);
+        std::cout << "IP address: " << client_ip << "\n";
 
         // Receive data from client
+        int result;
         char buffer[1024] = {0};
         result = recv(client_socket, buffer, sizeof(buffer), 0);
         if (result == -1) {
@@ -105,7 +104,7 @@ int main() {
         std::cout << "Data from client: " << buffer << "\n";
 
         // Check client message
-        std::string response = "HTTP/1.1 200 OK\r\n";
+        std::string response;
         std::string request_message{buffer};
         if (request_message == "join_game") {
             std::cout << "Player joining game\n";
@@ -113,14 +112,9 @@ int main() {
             // Generate UUID for client
             std::string uuid = generate_uuid();
 
-            // Add to clients vector
-            clients.push_back(uuid);
-
             // Send client his uuid
-            response += uuid;
+            response = uuid;
         }
-
-        response += "\r\nchameg dma ddugly";
 
         // Send response
         ssize_t n = send(client_socket, response.c_str(), response.length(), 0);
@@ -134,12 +128,6 @@ int main() {
             std::cout << "Error on close(): " << std::strerror(errno) << "\n";
         }
     }
-
-    // Close server socket
-    result = close(server_socket);
-    if (result != 0) {
-        std::cout << "Error on close(): " << std::strerror(errno) << "\n";
-    }
-
-    return 0;
 }
+
+} // namespace poker
