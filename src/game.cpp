@@ -10,72 +10,6 @@
 #include "game.hpp"
 #include "utils.hpp"
 
-/**
- * \brief Prints a single card
- */
-void print_card(std::ostream &os, const poker::Card &card) {
-    os << "+-----+" << "\n"
-       << "| " << card.number;
-
-    // Edge case if number is 10, which occupies two spaces
-    if (card.number == poker::Card::Number::Ten) {
-        os << "  |\n";
-    }
-    else {
-        os << "   |\n";
-    }
-
-    os << "|     |" << "\n"
-       << "|   " << card.suit << " |" << "\n"
-       << "+-----+";
-}
-
-/**
- * \brief Prints an array of cards in the same line
- */
-template <size_t N>
-void print_cards(std::ostream &os, const std::array<poker::Card, N> &cards) {
-    size_t i;
-    // Start line
-    for (i = 0; i < N; ++i) {
-        os << "+-----+ ";
-    }
-    os << "\n";
-
-    // Number line
-    for (i = 0; i < N; ++i) {
-        os << "| ";
-        os << cards[i].number;
-
-        // Edge case if number is 10, which occupies two spaces
-        if (cards[i].number == poker::Card::Number::Ten) {
-            os << "  | ";
-        }
-        else {
-            os << "   | ";
-        }
-    }
-    os << "\n";
-
-    // White line
-    for (i = 0; i < N; ++i) {
-        os << "|     | ";
-    }
-    os << "\n";
-
-    // Suit line
-    for (i = 0; i < N; ++i) {
-        os << "|   " << cards[i].suit << " | ";
-    }
-    os << "\n";
-
-    // End line
-    for (i = 0; i < N; ++i) {
-        os << "+-----+ ";
-    }
-    os << "\n";
-}
-
 namespace poker {
 
 Game::PlayerOnGame::PlayerOnGame(std::shared_ptr<Player> p) :
@@ -84,10 +18,6 @@ Game::PlayerOnGame::PlayerOnGame(std::shared_ptr<Player> p) :
 
 void Game::PlayerOnGame::fold() {
     is_on_game_round = false;
-}
-
-bool Game::PlayerOnGame::operator<(const PlayerOnGame &other) const {
-    return static_cast<int>(combination) < static_cast<int>(other.combination);
 }
 
 Game::Game() {
@@ -151,8 +81,10 @@ std::shared_ptr<Game::PlayerOnGame> Game::who_wins() const {
         else if (is_two_pair(all_cards))
             p->combination = Combination::TWO_PAIR;
             */
-        if (is_pair(all_cards)) p->combination = Combination::PAIR;
-        else p->combination = Combination::HIGH;
+        if (is_pair(all_cards))
+            p->combination = Combination::PAIR;
+        else
+            p->combination = Combination::HIGH;
 
         aux.push_back(p);
     }
@@ -216,7 +148,7 @@ void Game::DEBUG(std::ostream &os) const {
     os << "=== GAME ===" << std::endl;
     os << current_stage() << std::endl;
     os << "\nTable:\n";
-    print_cards(os, table_cards());
+    print_game_stage(os, current_stage(), table_cards());
 
     // Unrevealed card
     //
@@ -234,9 +166,7 @@ void Game::DEBUG(std::ostream &os) const {
            << " | Is on round: " << p->is_on_game_round << " ]\n";
 
         // Print hand
-        auto hand = p->player->hand();
-        std::array<Card, 2> hand_arr = {hand.first, hand.second};
-        print_cards(os, hand_arr);
+        print_player_hand(os, p->player->hand());
     }
     os << std::endl;
     os << "Dealer Index: " << dealer_player_index() << std::endl;

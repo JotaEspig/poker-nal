@@ -117,6 +117,7 @@ target_include_directories(
 set (
     SOURCE_CLIENT_FILES
     ${SOURCE_DIR}/client-test.cpp
+    ${SOURCE_DIR}/client.cpp
 )
 
 # Adding executable

@@ -80,6 +80,8 @@ Server::Server(int port) :
 }
 
 void Server::start() {
+    std::vector<int> clients;
+
     while (true) {
         // Accept client connection
         struct sockaddr addr;
@@ -123,9 +125,24 @@ void Server::start() {
         }
 
         // Close client socket
-        result = close(client_socket);
-        if (result != 0) {
-            std::cout << "Error on close(): " << std::strerror(errno) << "\n";
+        // result = close(client_socket);
+        // if (result != 0) {
+        //     std::cout << "Error on close(): " << std::strerror(errno) << "\n";
+        // }
+
+        clients.push_back(client_socket);
+        std::cout << "Clients: ";
+        for (auto &c : clients) {
+            std::cout << c << ", ";
+        }
+        std::cout << "\n";
+
+        if (clients.size() == 4UL) {
+            std::cout << "Sending message to all clients\n";
+            const char* msg = "testing\n";
+            for (size_t i = 0; i < clients.size(); ++i) {
+                send(clients[i], msg, strlen(msg), 0);
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ public:
      **/
     Server();
     /**
-     * \brief Constructor that initializes player's cash
+     * \brief Constructor that initializes with port
      * \author Mickael Reichert (mickaelrei)
      * \date May 19, 2024
      * \version May 19, 2024
