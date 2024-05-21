@@ -14,7 +14,8 @@
  * \brief Prints a single card
  */
 void print_card(std::ostream &os, const poker::Card &card) {
-    os << "+-----+" << "\n"
+    os << "+-----+"
+       << "\n"
        << "| " << card.number;
 
     // Edge case if number is 10, which occupies two spaces
@@ -25,8 +26,10 @@ void print_card(std::ostream &os, const poker::Card &card) {
         os << "   |\n";
     }
 
-    os << "|     |" << "\n"
-       << "|   " << card.suit << " |" << "\n"
+    os << "|     |"
+       << "\n"
+       << "|   " << card.suit << " |"
+       << "\n"
        << "+-----+";
 }
 
@@ -176,8 +179,10 @@ std::shared_ptr<Game::PlayerOnGame> Game::who_wins() const {
         else if (is_two_pair(all_cards))
             p->combination = Combination::TWO_PAIR;
             */
-        if (is_pair(all_cards)) p->combination = Combination::PAIR;
-        else p->combination = Combination::HIGH;
+        if (is_pair(all_cards))
+            p->combination = Combination::PAIR;
+        else
+            p->combination = Combination::HIGH;
 
         aux.push_back(p);
     }

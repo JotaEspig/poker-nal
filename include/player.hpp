@@ -64,7 +64,7 @@ public:
      * \param value - value of the bet
      * \return updated player's cash
      **/
-    std::uint64_t bet(uint64_t value);
+    std::uint64_t bet(std::uint64_t value);
     /**
      * \brief bets all-in
      * \author João Vitor Espig (JotaEspig)
@@ -81,7 +81,7 @@ public:
      * \param value - value
      * \return updated player's cash
      **/
-    std::uint64_t receive(uint64_t value);
+    std::uint64_t receive(std::uint64_t value);
 
     /**
      * \brief _cash getter

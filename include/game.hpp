@@ -174,7 +174,8 @@ public:
      * \author João Vitor Espig (JotaEspig)
      * \date May 17, 2024
      * \version May 17, 2024
-     * \returns amount of player on table, player at idx 0 is small blind and player at idx 1 is big blind
+     * \returns amount of player on table, player at idx 0 is small blind and
+     *player at idx 1 is big blind
      **/
     std::size_t table_size() const;
 
