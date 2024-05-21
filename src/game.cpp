@@ -10,6 +10,8 @@
 #include "game.hpp"
 #include "utils.hpp"
 
+namespace poker {
+
 /**
  * \brief Prints a single card
  */
@@ -79,18 +81,12 @@ void print_cards(std::ostream &os, const std::array<poker::Card, N> &cards) {
     os << "\n";
 }
 
-namespace poker {
-
 Game::PlayerOnGame::PlayerOnGame(std::shared_ptr<Player> p) :
   player{p} {
 }
 
 void Game::PlayerOnGame::fold() {
     is_on_game_round = false;
-}
-
-bool Game::PlayerOnGame::operator<(const PlayerOnGame &other) const {
-    return static_cast<int>(combination) < static_cast<int>(other.combination);
 }
 
 Game::Game() {
@@ -253,7 +249,7 @@ void Game::DEBUG(std::ostream &os) const {
     os << "=== GAME ===" << std::endl;
     os << current_stage() << std::endl;
     os << "\nTable:\n";
-    print_cards(os, table_cards());
+    print_game_stage(os, current_stage(), table_cards());
 
     // Unrevealed card
     //
@@ -271,9 +267,7 @@ void Game::DEBUG(std::ostream &os) const {
            << " | Is on round: " << p->is_on_game_round << " ]\n";
 
         // Print hand
-        auto hand = p->player->hand();
-        std::array<Card, 2> hand_arr = {hand.first, hand.second};
-        print_cards(os, hand_arr);
+        print_player_hand(os, p->player->hand());
     }
     os << std::endl;
     os << "Dealer Index: " << dealer_player_index() << std::endl;
