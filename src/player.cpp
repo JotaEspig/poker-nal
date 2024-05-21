@@ -10,35 +10,35 @@ namespace poker {
 Player::Player() {
 }
 
-Player::Player(uint64_t cash) :
+Player::Player(std::uint64_t cash) :
   _cash{cash} {
 }
 
-std::shared_ptr<Player> Player::make_shared(uint64_t cash) {
+std::shared_ptr<Player> Player::make_shared(std::uint64_t cash) {
     return std::make_shared<Player>(cash);
 }
 
-bool Player::can_bet(uint64_t value) {
+bool Player::can_bet(std::uint64_t value) {
     return _cash >= value;
 }
 
-uint64_t Player::bet(uint64_t value) {
+std::uint64_t Player::bet(std::uint64_t value) {
     _cash -= value;
     return _cash;
 }
 
-uint64_t Player::allin() {
-    uint64_t cash = _cash;
+std::uint64_t Player::allin() {
+    std::uint64_t cash = _cash;
     bet(cash);
     return cash;
 }
 
-uint64_t Player::receive(uint64_t value) {
+std::uint64_t Player::receive(std::uint64_t value) {
     _cash += value;
     return _cash;
 }
 
-uint64_t Player::cash() const {
+std::uint64_t Player::cash() const {
     return _cash;
 }
 

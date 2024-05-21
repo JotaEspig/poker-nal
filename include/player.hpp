@@ -37,7 +37,7 @@ public:
      * \version May 17, 2024
      * param cash - cash to be designated to player
      **/
-    Player(uint64_t cash);
+    Player(std::uint64_t cash);
     /**
      * \brief Creates shared pointer of player
      * \author João Vitor Espig (JotaEspig)
@@ -45,7 +45,7 @@ public:
      * \version May 17, 2024
      * param cash - cash to be designated to player
      **/
-    static std::shared_ptr<Player> make_shared(uint64_t cash = 0);
+    static std::shared_ptr<Player> make_shared(std::uint64_t cash = 0);
 
     /**
      * \brief Checks if player can bet that value
@@ -55,7 +55,7 @@ public:
      * \param value - value of the bet
      * \return true or false
      **/
-    bool can_bet(uint64_t value);
+    bool can_bet(std::uint64_t value);
     /**
      * \brief bets the value
      * \author João Vitor Espig (JotaEspig)
@@ -64,7 +64,7 @@ public:
      * \param value - value of the bet
      * \return updated player's cash
      **/
-    uint64_t bet(uint64_t value);
+    std::uint64_t bet(uint64_t value);
     /**
      * \brief bets all-in
      * \author João Vitor Espig (JotaEspig)
@@ -72,7 +72,7 @@ public:
      * \version May 17, 2024
      * \return betted value (player's cash before all-in)
      **/
-    uint64_t allin();
+    std::uint64_t allin();
     /**
      * \brief receives the value
      * \author João Vitor Espig (JotaEspig)
@@ -81,7 +81,7 @@ public:
      * \param value - value
      * \return updated player's cash
      **/
-    uint64_t receive(uint64_t value);
+    std::uint64_t receive(uint64_t value);
 
     /**
      * \brief _cash getter
@@ -90,7 +90,7 @@ public:
      * \version May 17, 2024
      * \return player's cash
      **/
-    uint64_t cash() const;
+    std::uint64_t cash() const;
     /**
      * \brief _hand getter
      * \author João Vitor Espig (JotaEspig)
@@ -121,7 +121,7 @@ public:
 
 private:
     /** Player's cash **/
-    uint64_t _cash;
+    std::uint64_t _cash;
     /** Player's hand **/
     std::pair<Card, Card> _hand;
 };
