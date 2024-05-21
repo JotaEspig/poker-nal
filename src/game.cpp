@@ -115,6 +115,8 @@ void Game::reset() {
 }
 
 void Game::finish_round() {
+    pot = 0;
+    bet_on_stage = 0;
     reset();
 }
 
@@ -122,6 +124,11 @@ void Game::next_stage() {
     if (players_playing_count() <= 1) {
         return finish_round();
     }
+
+    for (auto &p : _players) {
+        p->bet_on_stage = 0;
+    }
+    bet_on_stage = 0;
     _current_stage = static_cast<Stage>(static_cast<int>(_current_stage) + 1);
 }
 

@@ -59,6 +59,8 @@ public:
         bool is_on_game_round = false;
         /** player hand combination **/
         Combination combination = Combination::NOT_COMPUTED_YET;
+        /** Player bet on stage **/
+        std::uint64_t bet_on_stage = 0;
 
         /**
          * \brief Default constructor
@@ -79,6 +81,11 @@ public:
 
         bool operator<(const PlayerOnGame &other) const;
     };
+
+    /** Pot on current round **/
+    std::uint64_t pot = 0;
+    /** Player bet on stage **/
+    std::uint64_t bet_on_stage = 0;
 
     /**
      * \brief Default constructor
