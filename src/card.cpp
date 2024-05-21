@@ -14,6 +14,10 @@ Card::Card(Number n, Suit s) :
   suit{s} {
 }
 
+bool operator<(const Card &first, const Card &second){
+    return static_cast<int>(first.number) < static_cast<int>(second.number);
+}
+
 std::ostream &operator<<(std::ostream &os, const Card &card) {
     os << card.number << "." << card.suit;
     return os;

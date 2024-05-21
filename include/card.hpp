@@ -83,6 +83,16 @@ struct Card {
 };
 
 /**
+ * \brief operator< overload
+ * \author João Vitor Espig (JotaEspig)
+ * \date May 21, 2024
+ * \version May 21, 2024
+ * \param first - first card
+ * \param second - second card
+ * \return bool
+ **/
+bool operator<(const Card &first, const Card &second);
+/**
  * \brief operator<< overload
  * \author João Vitor Espig (JotaEspig)
  * \date May 17, 2024
