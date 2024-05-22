@@ -79,15 +79,21 @@ bool is_royal_flush(std::array<Card, 7> all_cards) {
 
 void print_card(std::ostream &os, const Card &card, const bool &revealed) {
     if (!revealed) {
-        os << "+-----+" << "\n"
-           << "| ♦ ♦ |" << "\n"
-           << "| ♦ ♦ |" << "\n"
-           << "| ♦ ♦ |" << "\n"
-           << "+-----+" << "\n";
+        os << "+-----+"
+           << "\n"
+           << "| ♦ ♦ |"
+           << "\n"
+           << "| ♦ ♦ |"
+           << "\n"
+           << "| ♦ ♦ |"
+           << "\n"
+           << "+-----+"
+           << "\n";
         return;
     }
 
-    os << "+-----+" << "\n"
+    os << "+-----+"
+       << "\n"
        << "| ";
     os << card.number;
 
@@ -99,8 +105,10 @@ void print_card(std::ostream &os, const Card &card, const bool &revealed) {
         os << "   |\n";
     }
 
-    os << "|     |" << "\n"
-       << "|   " << card.suit << " |" << "\n"
+    os << "|     |"
+       << "\n"
+       << "|   " << card.suit << " |"
+       << "\n"
        << "+-----+";
 }
 
