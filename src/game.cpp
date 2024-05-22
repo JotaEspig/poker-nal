@@ -117,7 +117,7 @@ void Game::finish_round() {
 }
 
 void Game::next_stage() {
-    if (players_playing_count() <= 1) {
+    if (active_player_count() <= 1) {
         return finish_round();
     }
 
@@ -129,7 +129,7 @@ void Game::next_stage() {
 }
 
 std::int64_t Game::next_player_idx(std::size_t idx) const {
-    std::size_t active_players = players_playing_count();
+    std::size_t active_players = active_player_count();
     if (active_players <= 1)
         return -1;
 
@@ -154,6 +154,17 @@ std::int64_t Game::next_player_idx(std::size_t idx) const {
 }
 
 std::shared_ptr<Game::PlayerOnGame> Game::who_wins() const {
+    if (_current_stage != Stage::SHOWDOWN) {
+        if (active_player_count() <= 1) {
+            for (auto p : _players) {
+                if (p->is_on_game_round)
+                    return p;
+            }
+        }
+
+        return nullptr;
+    }
+
     std::vector<std::shared_ptr<PlayerOnGame>> aux;
     for (auto p : _players) {
         if (!p->is_on_game_round)
@@ -164,7 +175,6 @@ std::shared_ptr<Game::PlayerOnGame> Game::who_wins() const {
             all_cards[i] = _table_cards[i];
         all_cards[5] = p->player->hand().first;
         all_cards[6] = p->player->hand().second;
-        /*
         if (is_royal_flush(all_cards))
             p->combination = Combination::ROYAL_FLUSH;
         else if (is_straight_flush(all_cards))
@@ -181,8 +191,7 @@ std::shared_ptr<Game::PlayerOnGame> Game::who_wins() const {
             p->combination = Combination::THREE_OF_A_KIND;
         else if (is_two_pair(all_cards))
             p->combination = Combination::TWO_PAIR;
-            */
-        if (is_pair(all_cards))
+        else if (is_pair(all_cards))
             p->combination = Combination::PAIR;
         else
             p->combination = Combination::HIGH;
@@ -207,7 +216,7 @@ std::shared_ptr<Game::PlayerOnGame> Game::get_player(size_t index) {
     return _players[index];
 }
 
-std::size_t Game::players_playing_count() const {
+std::size_t Game::active_player_count() const {
     size_t amount = 0;
     for (auto e : _players)
         if (e->is_on_game_round)

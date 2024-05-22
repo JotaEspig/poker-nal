@@ -1,4 +1,5 @@
 #include <array>
+#include <cstddef>
 
 #include "card.hpp"
 #include "utils.hpp"
@@ -6,9 +7,9 @@
 namespace poker {
 
 bool is_pair(std::array<Card, 7> all_cards) {
-    for (size_t i = 0; i < 7; ++i) {
+    for (std::size_t i = 0; i < 7; ++i) {
         Card c1 = all_cards[i];
-        for (size_t j = 0; j < 7; ++j) {
+        for (std::size_t j = 0; j < 7; ++j) {
             if (i == j)
                 continue;
 
@@ -18,6 +19,61 @@ bool is_pair(std::array<Card, 7> all_cards) {
         }
     }
 
+    return false;
+}
+
+bool is_two_pair(std::array<Card, 7> all_cards) {
+    bool pairs[2] = {false, false};
+    Card::Number nums[2] = {Card::Number::Invalid, Card::Number::Invalid};
+    for (int aux = 0; aux < 2; ++aux) {
+        for (std::size_t i = 0; i < 7; ++i) {
+            Card c1 = all_cards[i];
+            if (nums[0] == c1.number)
+                continue;
+
+            for (std::size_t j = 0; j < 7; ++j) {
+                if (i == j)
+                    continue;
+
+                Card c2 = all_cards[j];
+                if (c1.number == c2.number) {
+                    nums[aux] = c1.number;
+                    pairs[aux] = true;
+                    break;
+                }
+            }
+            if (pairs[aux])
+                break;
+        }
+    }
+    return pairs[0] && pairs[1];
+}
+
+bool is_three_of_a_kind(std::array<Card, 7> all_cards) {
+    return false;
+}
+
+bool is_straight(std::array<Card, 7> all_cards) {
+    return false;
+}
+
+bool is_flush(std::array<Card, 7> all_cards) {
+    return false;
+}
+
+bool is_fullhouse(std::array<Card, 7> all_cards) {
+    return false;
+}
+
+bool is_four_of_a_kind(std::array<Card, 7> all_cards) {
+    return false;
+}
+
+bool is_straight_flush(std::array<Card, 7> all_cards) {
+    return false;
+}
+
+bool is_royal_flush(std::array<Card, 7> all_cards) {
     return false;
 }
 
@@ -53,7 +109,7 @@ void print_game_stage(
 ) {
     (void)stage;
 
-    size_t i;
+    std::size_t i;
     // Start line
     for (i = 0; i < 5; ++i) {
         os << "+-----+ ";

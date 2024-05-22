@@ -166,7 +166,7 @@ public:
      * \version May 17, 2024
      * \return Amount of players playing in round
      **/
-    std::size_t players_playing_count() const;
+    std::size_t active_player_count() const;
     /**
      * \brief Gets the who plays first, second, etc...
      * \author João Vitor Espig (JotaEspig)
